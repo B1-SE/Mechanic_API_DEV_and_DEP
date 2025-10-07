@@ -18,25 +18,32 @@ def create_app(config_name=None):
     limiter.init_app(app)
     cache.init_app(app)
     
-    @app.before_request
-    def check_content_type():
-        from flask import request, jsonify
-        if request.method in ['POST', 'PUT'] and request.data and not request.content_type:
-            return jsonify({'error': 'Content-Type must be application/json'}), 400
-    
     # Register Blueprints and set url prefixes (plural names)
     app.register_blueprint(customer_bp, url_prefix='/customers')
     app.register_blueprint(mechanic_bp, url_prefix='/mechanics')
     app.register_blueprint(service_ticket_bp, url_prefix='/service-tickets')
     app.register_blueprint(inventory_bp, url_prefix='/inventory')
     
+    # Disable strict slashes globally
+    app.url_map.strict_slashes = False
+    
     # Swagger UI setup
     SWAGGER_URL = '/docs'
     API_URL = '/swagger.json'
     swaggerui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
     app.register_blueprint(swaggerui_blueprint)
+    
+    @app.before_request
+    def check_content_type():
+        from flask import request, jsonify
+        if request.method in ['POST', 'PUT'] and request.data and not request.content_type:
+            return jsonify({'error': 'Content-Type must be application/json'}), 400
 
     # Simple root / health-check route
+    @app.route('/health')
+    def health_check():
+        return {'status': 'healthy', 'message': 'API is running'}, 200
+    
     @app.route('/')
     def index():
         from flask import Response
