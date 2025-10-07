@@ -1,10 +1,13 @@
 from app import create_app
 from app.extensions import db
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file (development only)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv not available in production
 
 # Use ProductionConfig for deployment
 app = create_app('ProductionConfig')
