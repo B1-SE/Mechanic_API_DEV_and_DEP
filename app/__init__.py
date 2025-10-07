@@ -39,7 +39,43 @@ def create_app(config_name=None):
     # Simple root / health-check route
     @app.route('/')
     def index():
-        return {'status': 'ok', 'routes': ['/customers', '/mechanics', '/service-tickets', '/inventory'], 'docs': '/docs'}, 200
+        return '''
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Mechanic Shop API</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+                .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                h1 { color: #333; text-align: center; }
+                .endpoints { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px 0; }
+                .endpoint { background: #007bff; color: white; padding: 15px; border-radius: 5px; text-align: center; text-decoration: none; }
+                .endpoint:hover { background: #0056b3; }
+                .docs-link { background: #28a745; display: block; text-align: center; padding: 15px; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+                .docs-link:hover { background: #1e7e34; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🔧 Mechanic Shop API</h1>
+                <p style="text-align: center; color: #666;">RESTful API for managing customers, mechanics, service tickets, and inventory</p>
+                
+                <div class="endpoints">
+                    <a href="/customers/" class="endpoint">👥 Customers</a>
+                    <a href="/mechanics/" class="endpoint">🔧 Mechanics</a>
+                    <a href="/service-tickets/" class="endpoint">🎫 Service Tickets</a>
+                    <a href="/inventory/" class="endpoint">📦 Inventory</a>
+                </div>
+                
+                <a href="/docs" class="docs-link">📚 API Documentation (Swagger)</a>
+                
+                <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+                    <p>Status: ✅ Online | Environment: Production</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ''', 200
     
     @app.route('/swagger.json')
     def swagger_spec():
