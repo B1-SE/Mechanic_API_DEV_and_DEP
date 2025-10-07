@@ -83,6 +83,17 @@ def get_customers():
       200:
         description: List of customers
     """
+    if request.headers.get('Accept') == 'text/html' or 'text/html' in request.headers.get('Accept', ''):
+        from flask import Response
+        html = '''<!DOCTYPE html>
+<html><head><title>Customers API</title></head>
+<body>
+<h1>Customers API Endpoint</h1>
+<p>This is a JSON API endpoint. Use tools like Postman or curl to interact with it.</p>
+<p><a href="/">← Back to Home</a> | <a href="/docs">API Documentation</a></p>
+</body></html>'''
+        return Response(html, mimetype='text/html')
+    
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
     

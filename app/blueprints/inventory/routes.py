@@ -56,6 +56,17 @@ def get_inventory():
           items:
             $ref: '#/definitions/Inventory'
     """
+    from flask import request
+    if request.headers.get('Accept') == 'text/html' or 'text/html' in request.headers.get('Accept', ''):
+        from flask import Response
+        html = '''<!DOCTYPE html>
+<html><head><title>Inventory API</title></head>
+<body>
+<h1>Inventory API Endpoint</h1>
+<p>This is a JSON API endpoint. Use tools like Postman or curl to interact with it.</p>
+<p><a href="/">← Back to Home</a> | <a href="/docs">API Documentation</a></p>
+</body></html>'''
+        return Response(html, mimetype='text/html')
     items = db.session.query(Inventory).all()
     return inventories_schema.jsonify(items), 200
 

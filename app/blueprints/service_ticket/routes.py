@@ -63,6 +63,17 @@ def get_tickets():
           items:
             $ref: '#/definitions/ServiceTicket'
     """
+    from flask import request
+    if request.headers.get('Accept') == 'text/html' or 'text/html' in request.headers.get('Accept', ''):
+        from flask import Response
+        html = '''<!DOCTYPE html>
+<html><head><title>Service Tickets API</title></head>
+<body>
+<h1>Service Tickets API Endpoint</h1>
+<p>This is a JSON API endpoint. Use tools like Postman or curl to interact with it.</p>
+<p><a href="/">← Back to Home</a> | <a href="/docs">API Documentation</a></p>
+</body></html>'''
+        return Response(html, mimetype='text/html')
     tickets = db.session.query(ServiceTicket).all()
     return service_tickets_schema.jsonify(tickets), 200
 

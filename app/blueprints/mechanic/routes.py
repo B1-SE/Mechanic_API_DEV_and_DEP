@@ -57,6 +57,17 @@ def get_mechanics():
           items:
             $ref: '#/definitions/Mechanic'
     """
+    from flask import request
+    if request.headers.get('Accept') == 'text/html' or 'text/html' in request.headers.get('Accept', ''):
+        from flask import Response
+        html = '''<!DOCTYPE html>
+<html><head><title>Mechanics API</title></head>
+<body>
+<h1>Mechanics API Endpoint</h1>
+<p>This is a JSON API endpoint. Use tools like Postman or curl to interact with it.</p>
+<p><a href="/">← Back to Home</a> | <a href="/docs">API Documentation</a></p>
+</body></html>'''
+        return Response(html, mimetype='text/html')
     mechs = db.session.query(Mechanic).all()
     return mechanics_schema.jsonify(mechs), 200
 
