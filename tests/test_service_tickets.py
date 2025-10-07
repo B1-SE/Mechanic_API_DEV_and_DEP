@@ -40,7 +40,7 @@ class TestServiceTickets(unittest.TestCase):
 
     def test_assign_mechanic_ticket_not_found(self):
         response = self.client.put('/service-tickets/999/assign-mechanic/1')
-        self.assertEqual(response.status_code, 400)  # Content-Type validation
+        self.assertEqual(response.status_code, 404)
 
     def test_assign_mechanic_mechanic_not_found(self):
         # Create ticket first
@@ -49,11 +49,11 @@ class TestServiceTickets(unittest.TestCase):
         db.session.commit()
         
         response = self.client.put(f'/service-tickets/{ticket.id}/assign-mechanic/999')
-        self.assertEqual(response.status_code, 400)  # Content-Type validation
+        self.assertEqual(response.status_code, 404)
 
     def test_remove_mechanic_ticket_not_found(self):
         response = self.client.put('/service-tickets/999/remove-mechanic/1')
-        self.assertEqual(response.status_code, 400)  # Content-Type validation
+        self.assertEqual(response.status_code, 404)
 
     def test_edit_ticket_not_found(self):
         data = {"add_ids": [1], "remove_ids": []}
@@ -62,7 +62,7 @@ class TestServiceTickets(unittest.TestCase):
 
     def test_add_part_ticket_not_found(self):
         response = self.client.put('/service-tickets/999/add-part/1')
-        self.assertEqual(response.status_code, 400)  # Content-Type validation
+        self.assertEqual(response.status_code, 404)
 
 if __name__ == '__main__':
     unittest.main()

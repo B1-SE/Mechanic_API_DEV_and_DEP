@@ -49,6 +49,8 @@ jobs:
         pip install python-dotenv
     
     - name: Run tests
+      env:
+        PYTHONWARNINGS: ignore::UserWarning
       run: |
         python -m unittest discover tests -v
 
