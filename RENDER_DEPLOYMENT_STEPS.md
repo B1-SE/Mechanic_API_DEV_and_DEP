@@ -16,7 +16,7 @@
 ### **Step 2: Set Environment Variables**
 In the Render dashboard, add these environment variables:
 - `DATABASE_URL`: `postgresql://admin:securepass@db-abcd1234.render.com:5432/mechanic_shop`
-- `SECRET_KEY`: `your-super-secret-production-key-here`
+- `SECRET_KEY`: `ADKSJFJAKDSLADFJKHLJDFLKSDJAFH`
 - `FLASK_ENV`: `production`
 
 ### **Step 3: Deploy**
