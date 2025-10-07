@@ -5,9 +5,9 @@ swagger_config = {
         "description": "API for managing customers, mechanics, service tickets, and inventory",
         "version": "1.0.0"
     },
-    "host": "127.0.0.1:5001",
+    "host": "https://be1-mechanic-shop-assignment.onrender.com",
     "basePath": "/",
-    "schemes": ["http"],
+    "schemes": ["https"],
     "securityDefinitions": {
         "Bearer": {
             "type": "apiKey",
