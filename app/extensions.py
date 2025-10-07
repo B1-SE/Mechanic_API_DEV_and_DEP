@@ -8,6 +8,6 @@ from flask_caching import Cache
 db = SQLAlchemy()
 ma = Marshmallow()
 # In-memory limiter for dev; configure a storage backend for production
-limiter = Limiter(key_func=get_remote_address, default_limits=[])
+limiter = Limiter(key_func=get_remote_address, default_limits=["100 per hour"])
 # SimpleCache for dev to silence CACHE_TYPE null warning
 cache = Cache(config={"CACHE_TYPE": "SimpleCache"})

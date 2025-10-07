@@ -11,5 +11,10 @@ class CustomerSchema(ma.SQLAlchemyAutoSchema):
       email = ma.Email(required=True)
       password = ma.Str(load_only=True)
 
+class LoginSchema(ma.Schema):
+    email = ma.Email(required=True)
+    password = ma.Str(required=True)
+
 customer_schema = CustomerSchema()
 customers_schema = CustomerSchema(many=True)
+login_schema = LoginSchema()

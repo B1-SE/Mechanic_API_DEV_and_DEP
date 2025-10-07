@@ -8,11 +8,17 @@ from app.extensions import db
 class Base(DeclarativeBase):
     pass
 
-# association table
+# association tables
 Service_Mechanic = db.Table(
     "service_mechanic",
     db.Column("service_ticket_id", db.Integer, db.ForeignKey("service_tickets.id"), primary_key=True),
     db.Column("mechanic_id", db.Integer, db.ForeignKey("mechanics.id"), primary_key=True),
+)
+
+Service_Inventory = db.Table(
+    "service_inventory",
+    db.Column("service_ticket_id", db.Integer, db.ForeignKey("service_tickets.id"), primary_key=True),
+    db.Column("inventory_id", db.Integer, db.ForeignKey("inventory.id"), primary_key=True),
 )
 
 class Customer(db.Model):
@@ -39,6 +45,7 @@ class ServiceTicket(db.Model):
 
     customer = db.relationship("Customer", back_populates="service_tickets")
     mechanics = db.relationship("Mechanic", secondary=Service_Mechanic, back_populates="service_tickets")
+    inventory = db.relationship("Inventory", secondary=Service_Inventory, back_populates="service_tickets")
 
 class Mechanic(db.Model):
     __tablename__ = "mechanics"
@@ -50,3 +57,12 @@ class Mechanic(db.Model):
     email = db.Column(db.String(360), nullable=False, unique=True)
 
     service_tickets = db.relationship("ServiceTicket", secondary=Service_Mechanic, back_populates="mechanics")
+
+class Inventory(db.Model):
+    __tablename__ = "inventory"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+    service_tickets = db.relationship("ServiceTicket", secondary=Service_Inventory, back_populates="inventory")
