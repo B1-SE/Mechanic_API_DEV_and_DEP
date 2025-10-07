@@ -1,0 +1,20 @@
+databases:
+  - name: mechanic-api-db
+    databaseName: mechanic_api_db
+    user: mechanic_user
+
+services:
+  - type: web
+    name: mechanic-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn flask_app:app"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mechanic-api-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
